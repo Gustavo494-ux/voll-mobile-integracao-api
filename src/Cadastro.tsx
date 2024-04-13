@@ -14,8 +14,6 @@ export default function Cadastro() {
   function avancarSecao(){
     if(numSecao < secoes.length - 1){
       setNumSecao(numSecao+1)
-    }else{
-      console.log(planos)
     }
   }
 
@@ -63,17 +61,18 @@ export default function Cadastro() {
             return (
               <Checkbox 
                 key={checkbox.id} 
-                value={checkbox.value}>
+                value={checkbox.value}
                   onChange={() => {
                     setPlanos((planosAnteriores) => {
                       if(planosAnteriores.includes(checkbox.id)){
                         return planosAnteriores.filter((id) => id !== checkbox.id)
                       } else {
-                        return [...planosAnteriores, checkbox.id]
-                        verificar pq os planos não estão sendo contabilizados
+                        return [...planosAnteriores, checkbox.id]                        
                       }
                     })
                   }}
+                  isChecked={planos.includes(checkbox.id)}
+                  >
                 {checkbox.value}
               </Checkbox>
             )
