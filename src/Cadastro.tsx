@@ -5,6 +5,7 @@ import { Botao } from './componentes/Botao';
 import { EntradaTexto } from './componentes/EntradaTexto';
 import { Titulo } from './componentes/Titulo';
 import { secoes } from './utils/CadastroEntradaTexto';
+import { cadastrarPaciente } from './servicos/PacienteServico';
 
 export default function Cadastro() {
   const [numSecao, setNumSecao] = useState(0);
@@ -27,6 +28,30 @@ export default function Cadastro() {
     setDados({...dados, [id]:valor})
   }
 
+  async function cadastrar(){
+    const resultado = await cadastrarPaciente({
+      cpf: dados.cpf,
+      nome: dados.nome,
+      email: dados.email,
+      endereco: {
+        cep: dados.cep,
+        rua: dados.rua,
+        numero: dados.numero,
+        estado: dados.estado,
+        complemento: dados.complemento,
+      },
+      senha: dados.senha,
+      telefone: dados.telefone,
+      possuiPlanoSaude: planos.length > 0,
+      planosSaude: planos,
+      imagem: dados.imagem,
+     
+    });
+
+    if (!resultado){
+      console.log('erro ao realizar cadastro')
+    }
+  }
   return (
     <ScrollView flex={1} p={5}>
       <Image source={Logo} alt="Logo Voll" alignSelf="center" />
@@ -80,7 +105,12 @@ export default function Cadastro() {
         }
       </Box>
       {numSecao > 0 && <Botao onPress={() => voltarSecao()} bgColor="gray.400">Voltar</Botao>}
-      <Botao onPress={() => avancarSecao()} mt={4} mb={20}>Avançar</Botao>
+      <Botao onPress={() => {
+        if (numSecao == 2){
+          cadastrar()
+        }
+        avancarSecao()
+      }} mt={4} mb={20}>{numSecao == 2 ? 'Finalizar' : 'Avançar'}</Botao>
     </ScrollView>
   );
 }

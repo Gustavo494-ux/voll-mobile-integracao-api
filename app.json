@@ -21,7 +21,7 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },"permissions": ["DETACH_SCREEN_CAPTURE"]
     },
     "web": {
       "favicon": "./assets/favicon.png"
