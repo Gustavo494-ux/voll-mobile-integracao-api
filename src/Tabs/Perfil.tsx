@@ -3,9 +3,10 @@ import { Titulo } from '../componentes/Titulo'
 import { useEffect, useState } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { pegarDadosPaciente } from '../servicos/PacienteServico'
+import { Paciente } from '../interfaces/Paciente'
 
 export default function Perfil(){
-  const [dadosPaciente, setDadosPaciente] = useState({})
+  const [dadosPaciente, setDadosPaciente] = useState({} as Paciente)
 
   useEffect(() => {
     async function dadosPaciente(){
@@ -30,14 +31,17 @@ export default function Perfil(){
 
         <Titulo color="blue.500">Informações pessoais</Titulo>
         <Titulo fontSize="lg" mb={1}>{dadosPaciente.nome}</Titulo>
-        <Text>12/12/1990</Text>
-        <Text>São Paulo</Text>
+        <Text>{dadosPaciente.email}</Text>
+        <Text>{dadosPaciente.endereco.estado}</Text>
 
         <Divider mt={5} />
 
-        <Titulo color="blue.500" mb={1}>Histórico médico</Titulo>
-        <Text>Bronquite</Text>
-        <Text>Sinusite</Text>
+        <Titulo color="blue.500" mb={1}>Planos de saúde</Titulo>
+        {
+          dadosPaciente.planosSaude?.map((plano, index) => {
+            <Text key={index}>{plano}</Text>
+          })
+        }        
       </VStack>
     </ScrollView>
   )
