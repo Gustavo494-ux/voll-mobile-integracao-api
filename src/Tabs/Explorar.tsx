@@ -6,19 +6,26 @@ import { Titulo } from "../componentes/Titulo";
 import { useState } from "react";
 import { buscarEspecialistaPorEstado } from "../servicos/EspecialistaServico";
 import { Especilista } from "../interfaces/Especialista";
+import { NavigationProps } from "../@types/navigation";
 
-export default function Explorar(){
+export default function Explorar({ navigation }:NavigationProps<'Explorar'>){
   const [especialidade, setEspecialidade] = useState('')
   const [estado, setEstado] = useState('')
   const [resultadoBusca, setResultadoBusca] = useState([])
 
   async function buscar(){
+    console.log('1')
     if(!estado || !especialidade) return null
+    console.log('2')
     const resultado = await buscarEspecialistaPorEstado(estado,especialidade);
+    console.log('3')
     if (resultado){
+      console.log('4')
       setResultadoBusca(resultado)
       console.log(resultado)
     }
+
+    console.log('5')
   }
 
   return(
@@ -47,6 +54,10 @@ export default function Explorar(){
               especialidade={especialista.especialidade}
               foto={especialista.imagem}
               nome={especialista.nome}
+              onPress={() => 
+                navigation.navigate('Agendamento', {
+                  especialistaId: especialista.id})
+                }
             />
           </VStack>
         ))}

@@ -1,7 +1,7 @@
 import api from "./api"
 
 export async function buscarEspecialistaPorEstado(estado: string, especialidade: string){
-    try {
+    try {        
         const resultado = await api.get('/especialista/busca',{
             params: {
                 estado, 
